@@ -1,5 +1,3 @@
-library particle_flow;
-
 export 'src/particle_behavior.dart';
 export 'src/particle_model.dart'
     show

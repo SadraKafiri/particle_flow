@@ -1,9 +1,9 @@
 name: particle_flow
 description: "High-performance configurable particle system for Flutter (canvas + widgets, with overlay child support)."
 version: 0.0.1
-homepage: https://github.com/your-user/particle_flow
-repository: https://github.com/your-user/particle_flow
-issue_tracker: https://github.com/your-user/particle_flow/issues
+homepage: https://github.com/SadraKafiri/particle_flow
+repository: https://github.com/SadraKafiri/particle_flow
+issue_tracker: https://github.com/SadraKafiri/particle_flow/issues
 
 environment:
   sdk: ">=3.10.1 <4.0.0"

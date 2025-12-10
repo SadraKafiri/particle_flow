@@ -9,8 +9,8 @@ import 'particle_model.dart';
 /// Each system can have its own:
 /// - count
 /// - behavior (speed, gravity, scale, opacity, ...)
-/// - spawn configuration (origin, custom area)
-/// - render method (canvas OR widgets)
+//  - spawn configuration (origin, custom area)
+//  - render method (canvas OR widgets)
 class ParticleSystemConfig {
   const ParticleSystemConfig._({
     required this.count,
@@ -66,13 +66,22 @@ class ParticleSystemConfig {
 }
 
 /// A convenience widget that combines multiple [ParticleFlow] systems
-/// into a single overlay using a [Stack].
+/// into a single overlay.
 ///
-/// This lets you do things like:
-/// - center area: emoji snow
-/// - left side: images drifting in
-/// - right side: custom widgets
-/// - or fully mixed setups, each with its own origin and behavior.
+/// Typical usage:
+///
+/// ```dart
+/// MultiParticleFlow(
+///   child: MyScaffold(),
+///   systems: [
+///     ParticleSystemConfig.canvas(...),
+///     ParticleSystemConfig.widgets(...),
+///   ],
+/// )
+/// ```
+///
+/// Pointer events are **not** captured by the particle overlay; they go to
+/// [child] (or below), thanks to [IgnorePointer].
 class MultiParticleFlow extends StatelessWidget {
   const MultiParticleFlow({
     super.key,
@@ -93,7 +102,7 @@ class MultiParticleFlow extends StatelessWidget {
 
   /// Optional child rendered behind all particle systems.
   ///
-  /// Typical usage:
+  /// Example:
   /// ```dart
   /// MultiParticleFlow(
   ///   systems: [...],
@@ -108,6 +117,7 @@ class MultiParticleFlow extends StatelessWidget {
       return child ?? const SizedBox.shrink();
     }
 
+    // Build all particle systems.
     final flows = <Widget>[
       for (var i = 0; i < systems.length; i++)
         ParticleFlow(
@@ -122,10 +132,18 @@ class MultiParticleFlow extends StatelessWidget {
         ),
     ];
 
+    // Particle overlay should not intercept pointer events.
+    final overlay = IgnorePointer(
+      ignoring: true,
+      child: Stack(fit: StackFit.expand, children: flows),
+    );
+
+    // If there is no child, just show the (non-interactive) overlay itself.
     if (child == null) {
-      return Stack(fit: StackFit.expand, children: flows);
+      return overlay;
     }
 
-    return Stack(fit: StackFit.expand, children: [child!, ...flows]);
+    // Normal case: background [child] + particle overlay on top.
+    return Stack(fit: StackFit.expand, children: [child!, overlay]);
   }
 }

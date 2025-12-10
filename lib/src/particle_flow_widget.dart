@@ -56,6 +56,8 @@ class ParticleFlow extends StatefulWidget {
   /// - In canvas mode: rendered as [CustomPaint.child] while particles are
   ///   drawn by a painter or a foregroundPainter.
   /// - In widget mode: placed below the particle widgets in a [Stack].
+  ///   When [child] is non-null, the overlay is wrapped in [IgnorePointer]
+  ///   so the child remains fully interactive.
   final Widget? child;
 
   // ---------------------------------------------------------------------------
@@ -290,7 +292,8 @@ class _ParticleFlowState extends State<ParticleFlow>
             );
           }
 
-          // Overlay mode: child rendered normally, particles drawn on top.
+          // Overlay mode: child rendered normally, particles drawn on top
+          // by a foreground painter (painting does not block pointer events).
           return RepaintBoundary(
             child: CustomPaint(
               foregroundPainter: painter,
@@ -332,12 +335,20 @@ class _ParticleFlowState extends State<ParticleFlow>
           ),
         );
 
+        // No child -> full-screen particle widget overlay.
         if (widget.child == null) {
           return overlay;
         }
 
-        // Child + particle widgets stacked together.
-        return Stack(fit: StackFit.expand, children: [widget.child!, overlay]);
+        // When a [child] is provided:
+        // - child stays interactive
+        // - particle widgets are drawn above but do NOT capture any pointers.
+        final ignoredOverlay = IgnorePointer(ignoring: true, child: overlay);
+
+        return Stack(
+          fit: StackFit.expand,
+          children: [widget.child!, ignoredOverlay],
+        );
       },
     );
   }
@@ -570,7 +581,7 @@ class _ParticleEngine {
     }
 
     // Warm-up mode: spread particles across their full motion path
-    // so we don't get an initial dense burst.
+    // so we do not get an initial dense burst.
     switch (spawnConfig.origin) {
       case ParticleSpawnOrigin.full:
         return Offset(

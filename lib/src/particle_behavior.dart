@@ -1,4 +1,3 @@
-// lib/particle_flow/particle_behavior.dart
 import 'package:flutter/widgets.dart';
 
 /// Defines where particles can spawn from.
@@ -59,24 +58,27 @@ class ParticleSpawnConfig {
 }
 
 /// Behavior configuration: motion, lifetime, opacity, scale.
+///
+/// You can either use the named constructors like [ParticleBehavior.snow]
+/// or create a custom configuration.
 class ParticleBehavior {
   const ParticleBehavior({
-    this.minSpeed = 40.0,
-    this.maxSpeed = 120.0,
-    this.minHorizontalSpeed = -20.0,
-    this.maxHorizontalSpeed = 20.0,
-    this.gravity = 30.0,
-    this.horizontalDriftAmplitude = 18.0,
-    this.horizontalDriftFrequency = 0.8,
+    this.minSpeed = 10.0,
+    this.maxSpeed = 30.0,
+    this.minHorizontalSpeed = -10.0,
+    this.maxHorizontalSpeed = 10.0,
+    this.gravity = 8.0,
+    this.horizontalDriftAmplitude = 14.0,
+    this.horizontalDriftFrequency = 0.6,
     this.minScale = 0.7,
-    this.maxScale = 1.2,
-    this.minOpacity = 0.5,
+    this.maxScale = 1.3,
+    this.minOpacity = 0.4,
     this.maxOpacity = 1.0,
-    this.minLifetime = const Duration(seconds: 6),
-    this.maxLifetime = const Duration(seconds: 12),
-    this.fadeInFraction = 0.15,
-    this.fadeOutFraction = 0.25,
-    this.rotationSpeed = 0.3,
+    this.minLifetime = const Duration(seconds: 12),
+    this.maxLifetime = const Duration(seconds: 22),
+    this.fadeInFraction = 0.18,
+    this.fadeOutFraction = 0.32,
+    this.rotationSpeed = 0.28,
   }) : assert(minSpeed >= 0),
        assert(maxSpeed >= minSpeed),
        assert(minHorizontalSpeed <= maxHorizontalSpeed),
@@ -137,7 +139,7 @@ class ParticleBehavior {
   /// Base rotation speed in radians per second.
   final double rotationSpeed;
 
-  /// Simple copy-with helper for customization.
+  /// Simple copy-with helper for customization from examples.
   ParticleBehavior copyWith({
     double? minSpeed,
     double? maxSpeed,
@@ -179,23 +181,27 @@ class ParticleBehavior {
   }
 
   /// Preset tuned for “soft snow” style motion.
+  ///
+  /// These defaults are intentionally **slow and gentle**, so even if
+  /// the user just calls `ParticleFlow.emoji` without custom behavior,
+  /// the result looks like calm snow, not a storm.
   const ParticleBehavior.snow({
-    double minSpeed = 20,
-    double maxSpeed = 70,
-    double minHorizontalSpeed = -10,
-    double maxHorizontalSpeed = 10,
-    double gravity = 25,
-    double horizontalDriftAmplitude = 24,
-    double horizontalDriftFrequency = 0.7,
-    double minScale = 0.6,
+    double minSpeed = 6,
+    double maxSpeed = 18,
+    double minHorizontalSpeed = -8,
+    double maxHorizontalSpeed = 8,
+    double gravity = 6,
+    double horizontalDriftAmplitude = 18,
+    double horizontalDriftFrequency = 0.55,
+    double minScale = 0.7,
     double maxScale = 1.3,
     double minOpacity = 0.4,
     double maxOpacity = 0.9,
-    Duration minLifetime = const Duration(seconds: 8),
-    Duration maxLifetime = const Duration(seconds: 16),
-    double fadeInFraction = 0.15,
-    double fadeOutFraction = 0.3,
-    double rotationSpeed = 0.4,
+    Duration minLifetime = const Duration(seconds: 14),
+    Duration maxLifetime = const Duration(seconds: 26),
+    double fadeInFraction = 0.18,
+    double fadeOutFraction = 0.32,
+    double rotationSpeed = 0.25,
   }) : this(
          minSpeed: minSpeed,
          maxSpeed: maxSpeed,
