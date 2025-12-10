@@ -42,6 +42,7 @@ High-performance, configurable particle system for Flutter.
 ```yaml
 dependencies:
   particle_flow: ^0.0.1  # or the latest version
+```
 
 Then:
 
@@ -206,5 +207,3 @@ flutter run
 This package is distributed under the MIT License.
 See the [LICENSE](LICENSE) file for details.
 
-```
-```

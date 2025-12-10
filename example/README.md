@@ -1,4 +1,3 @@
-````markdown
 # particle_flow_example
 
 Demo application for the **`particle_flow`** Flutter package.
@@ -21,7 +20,7 @@ From the root of the package (where `pubspec.yaml` of the **main package** lives
 
 ```bash
 flutter pub get
-````
+```
 
 Then inside the `example/` folder:
 
