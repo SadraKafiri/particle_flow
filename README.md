@@ -1,4 +1,3 @@
-````markdown
 # particle_flow
 
 High-performance, configurable particle system for Flutter.
@@ -43,7 +42,6 @@ High-performance, configurable particle system for Flutter.
 ```yaml
 dependencies:
   particle_flow: ^0.0.1  # or the latest version
-````
 
 Then:
 
